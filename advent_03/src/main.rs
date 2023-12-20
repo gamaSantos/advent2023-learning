@@ -1,49 +1,10 @@
 use std:: fs;
 
-struct EnginePart {
-    id: usize,
-    start: usize,
-    end: usize,
-    value: i32,
-}
+use engine_part::EnginePart;
+use map_row::MapRow;
 
-impl EnginePart {
-    fn new(id: usize, start: usize, end: usize, value: i32) -> EnginePart {
-        EnginePart {
-            id: id,
-            start: start,
-            end: end,
-            value: value,
-        }
-    }
-
-    fn in_bounds(&self, pos: &usize) -> bool {
-        let r = pos >= &self.start && pos <= &self.end;
-        return r;
-    }
-}
-
-struct MapRow {
-    parts: Vec<EnginePart>,
-}
-
-impl MapRow {
-    fn new(parts: Vec<EnginePart>) -> MapRow {
-        MapRow { parts: parts }
-    }
-
-    fn check_collision(&self, pos: &usize) -> Vec<&EnginePart> {
-        let mut result: Vec<&EnginePart> = Vec::new();
-
-        for p in self.parts.iter() {
-            let is_in_bounds = p.in_bounds(pos);
-            if is_in_bounds {
-                result.push(p);
-            }
-        }
-        return result;
-    }
-}
+mod map_row;
+mod engine_part;
 
 struct GraphMap {
     rows: Vec<MapRow>,
